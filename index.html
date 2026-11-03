@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>💗</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff0e6;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+}
+
+/* Floating hearts */
+.hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.heart {
+    position: absolute;
+    color: #e87991;
+    animation: float 5s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-25px);
+    }
+}
+
+/* Main popup */
+.window {
+    width: 290px;
+    background: #f8cbd3;
+    border: 3px solid #d77e82;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px #bd858555;
+    text-align: center;
+    z-index: 2;
+}
+
+.topbar {
+    padding: 10px;
+    background: #f5b9c6;
+    border-bottom: 2px solid #d77e82;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: bold;
+    color: #873d4c;
+}
+
+.content {
+    padding: 20px 12px;
+    background-color: #f9d5dc;
+    background-image:
+        linear-gradient(#ffffff35 1px, transparent 1px),
+        linear-gradient(90deg, #ffffff35 1px, transparent 1px);
+    background-size: 10px 10px;
+}
+
+.little-hearts {
+    color: #d83e5c;
+    letter-spacing: 7px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #873d4c;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.cat {
+    font-size: 75px;
+    margin: 15px 0;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Buttons */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    min-height: 42px;
+}
+
+button {
+    padding: 9px 22px;
+    border: 2px solid #d77e82;
+    border-radius: 4px;
+    background: #fff8f0;
+    color: #994d58;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+#yesBtn:hover {
+    background: #ed9eae;
+    color: white;
+    transform: scale(1.1);
+}
+
+#noBtn {
+    position: relative;
+}
+
+#message {
+    display: none;
+    padding: 15px 5px;
+    color: #873d4c;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="window">
+
+    <div class="topbar">
+        <span>LOVE</span>
+        <span>▣ ▢ ×</span>
+    </div>
+
+    <div class="content">
+
+        <div class="little-hearts">
+            ♥ · ♥ · ♥
+        </div>
+
+        <h2 id="question">
+            Hi, i miss you bb ♡
+            Do you still love me?
+        </h2>
+
+        <div class="cat" id="cat">
+            🐱❤️
+        </div>
+
+        <div class="buttons" id="buttons">
+
+            <button id="yesBtn" onclick="sayYes()">
+                YES 💗
+            </button>
+
+            <button id="noBtn">
+                NO
+            </button>
+
+        </div>
+
+        <div id="message"></div>
+
+    </div>
+</div>
+
+<!-- IRIS MUSIC -->
+<audio id="loveSong" src="iris.mp3" preload="auto"></audio>
+
+<script>
+
+// FLOATING HEARTS
+const hearts = document.getElementById("hearts");
+
+for (let i = 0; i < 30; i++) {
+
+    let heart = document.createElement("span");
+
+    heart.className = "heart";
+    heart.innerHTML = "♥";
+
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.top = Math.random() * 100 + "%";
+
+    heart.style.animationDelay =
+        Math.random() * 5 + "s";
+
+    heart.style.fontSize =
+        (10 + Math.random() * 15) + "px";
+
+    hearts.appendChild(heart);
+}
+
+
+// RUNAWAY NO BUTTON
+const noBtn = document.getElementById("noBtn");
+
+function moveNo() {
+
+    const padding = 15;
+
+    const maxX =
+        window.innerWidth - noBtn.offsetWidth - padding;
+
+    const maxY =
+        window.innerHeight - noBtn.offsetHeight - padding;
+
+    const x = Math.max(
+        padding,
+        Math.random() * maxX
+    );
+
+    const y = Math.max(
+        padding,
+        Math.random() * maxY
+    );
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("pointerenter", moveNo);
+
+noBtn.addEventListener("pointerdown", function(event) {
+    event.preventDefault();
+    moveNo();
+});
+
+
+// YES BUTTON
+async function sayYes() {
+
+    document.getElementById("question").innerHTML =
+        "YAY!! YOU STILL LOVE ME! ♡";
+
+    document.getElementById("cat").innerHTML =
+        "😻💗";
+
+    document.getElementById("buttons").style.display =
+        "none";
+
+    const message =
+        document.getElementById("message");
+
+    message.style.display = "block";
+
+    message.innerHTML =
+        "I just want you to know that I appreciate you more than you think. " +
+        "I'm really happy to have you in my life, " +
+        "and I hope you never doubt how much you mean to me. I'm glad it's you. ♥";
+
+    // PLAY IRIS AUTOMATICALLY
+    const song = document.getElementById("loveSong");
+
+    song.volume = 1;
+
+    try {
+        await song.play();
+    } catch (error) {
+        console.log("Music playback failed:", error);
+        message.innerHTML +=
+            "<br><br>Please check that iris.mp3 is in the same folder.";
+    }
+}
+
+</script>
+
+</body>
+</html>
